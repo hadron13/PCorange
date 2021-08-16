@@ -1,7 +1,7 @@
 DEMO=noise
 CC=gcc
 
-CFLAGS= -I../../include -std=gnu99 -Wall -Werror -Wno-unused -O3 -g
+CFLAGS= -I../../include -std=gnu99 -Wall -Werror -Wno-unused -O3 -g -fcommon
 
 PLATFORM = $(shell uname)
 

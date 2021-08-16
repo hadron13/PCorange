@@ -1,7 +1,7 @@
 APP=physics
 CC=gcc
 
-CFLAGS= -I../../include -std=gnu99 -Wall -Werror -Wno-unused -O3
+CFLAGS= -I../../include -std=gnu99 -Wall -Werror -Wno-unused -O3 -fcommon
 
 PLATFORM = $(shell uname)
 

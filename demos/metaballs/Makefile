@@ -3,7 +3,7 @@ CC=gcc
 
 INCS= -I ./include -I ../../include
 
-CFLAGS= $(INCS) -std=gnu99 -Wall -Werror -Wno-unused -O3 -g
+CFLAGS= $(INCS) -std=gnu99 -Wall -Werror -Wno-unused -O3 -g -fcommon
 C_FILES= $(wildcard src/*.c)
 OBJ_FILES= $(addprefix obj/,$(notdir $(C_FILES:.c=.o)))
 
