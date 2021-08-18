@@ -1,5 +1,5 @@
 
-# Cengine (cengine.h)
+# Engine (cengine.h)
 
 ## Common functions and structs used across the game engine.
 
@@ -33,7 +33,7 @@
 # **functions**:
 ## categories:
 ### **filesystem**:
-* **fpath P(const char\* path)** - transforms char* into fpath
+* **fpath P(const char\* path)** - transform char* into fpath
 * **fpath fpath_full(fpath path)** - get full path
 * **fpath fpath_file(fpath path)** - get file name
 * **fpath fpath_file_location(fpath path)** - get file location
@@ -43,9 +43,9 @@
 * **void at_debug/warning/error(void(\*func)(const char\*))** - register callback for debug/warning/error
 * **void debug/warning/error_(const char\*)** - call registered callbacks
 * **debug/warning/error(MSG, ...)** - log debug/warning/error
-* **alloc_check(PTR)** - checks allocation success
-* **SDL_GL_CheckError()** - checks OpenGL error if not in release mode
-* **SDL_GL_CheckFrameBuffer()** - checks OpenGL frame buffer status if not in release mode
+* **alloc_check(PTR)** - check allocation success
+* **SDL_GL_CheckError()** - check OpenGL error if not in release mode
+* **SDL_GL_CheckFrameBuffer()** - check OpenGL frame buffer status if not in release mode
 * **likely(x)** - condtional hinting
 * **unlikely(x)** - condtional hinting
 
@@ -53,7 +53,7 @@
 * **timer timer_start(int id, const char\* tag)** - start timer
 * **timer timer_split(timer t, const char\* tag)** - split timer
 * **timer timer_stop(timer t, const char\* tag)** - stop timer
-* **void timestamp(char\* out);** - prints timestamp on **out**
+* **void timestamp(char\* out);** - print timestamp on **out**
 
 ### **framerate**:
 
@@ -77,8 +77,8 @@
 * **bool between(float x, float bottom, float top)** - if x is between bottom and top
 * **bool between_or(float x, float bottom, float top)** if x is between or is botton or top
 * **float lerp(float p1, float p2, float amount)** - interpolation
-* **float smoothstep(float p1, float p2, float amount)** - smooth steps interpolation
-* **float smootherstep(float p1, float p2, float amount)** - smoother steps interpolation
+* **float smoothstep(float p1, float p2, float amount)** - smooth step interpolation
+* **float smootherstep(float p1, float p2, float amount)** - smoother step interpolation
 * **float cosine_interp(float p1, float p2, float amount)** - cosine interpolation
 * **float cubic_interp(float p1, float p2, float p3, float p4, float amount)** - cubic interpolation
 * **float nearest_interp(float p1, float p2, float amount)** - nearest interpolation
@@ -92,24 +92,24 @@
 ### note: vecn stands for any vector size 2-4, vecn/n stands for two possible sizes
 
 * **vecn vecn_new(float x, float y,...)** crea
-* **vecn vecn_zero()** - creates vector with 0
-* **vecn vecn_one()** - creates vector with 1
-* **vec3 vec3_up()** - creates vector pointing upwards
+* **vecn vecn_zero()** - create vector with 0
+* **vecn vecn_one()** - create vector with 1
+* **vec3 vec3_up()** - create vector pointing upwards
 
-* **vec3 vec3/4_red()** - creates vector with red color on RGB 
-* **vec3 vec3/4_green()** - creates vector with green color on RGB
-* **vec3 vec3/4_blue()** - creates vector with blue color on RGB
-* **vec3 vec3/4_white()** - creates vector with white color on RGB
-* **vec3 vec3/4_black()** - creates vector with black color on RGB
-* **vec3 vec3/4_grey()** - creates vector with grey color on RGB
-* **vec3 vec3/4_light_grey()** - creates vector with light grey color on RGB
-* **vec3 vec3/4_dark_grey()** - creates vector with dark grey color on RGB
+* **vec3 vec3/4_red()** - create vector with red color on RGB 
+* **vec3 vec3/4_green()** - create vector with green color on RGB
+* **vec3 vec3/4_blue()** - create vector with blue color on RGB
+* **vec3 vec3/4_white()** - create vector with white color on RGB
+* **vec3 vec3/4_black()** - create vector with black color on RGB
+* **vec3 vec3/4_grey()** - create vector with grey color on RGB
+* **vec3 vec3/4_light_grey()** - create vector with light grey color on RGB
+* **vec3 vec3/4_dark_grey()** - create vector with dark grey color on RGB
 
 
-* **vecn vecn_add(vecn v1, vecn v2)** - adds two vectors
-* **vecn vecn_sub(vecn v1, vecn v2)** - subtracts two vectors
-* **vecn vecn_mul(vecn v, float fac)** - multiplies vector with scalar
-* **vecn vecn_mul_vecn(vecn v1, vecn v2)** - multiplies two vectors
+* **vecn vecn_add(vecn v1, vecn v2)** - add two vectors
+* **vecn vecn_sub(vecn v1, vecn v2)** - subtract two vectors
+* **vecn vecn_mul(vecn v, float fac)** - multiply vector with scalar
+* **vecn vecn_mul_vecn(vecn v1, vecn v2)** - multiply two vectors
 * **vecn vecn_div(vecn v, float fac)** - divide vector with scalar
 * **vecn vecn_div_vecn(vecn v1, vecn v2)** - divide two vectors
 * **vecn vecn_pow(vecn v, float exp)** - power vector 
@@ -158,93 +158,93 @@
 * **vec4 vec4_bilinear_interp(vec4 top_left, vec4 top_right, vec4 bottom_left, vec4 bottom_right, float x_amount, float y_amount)** - interpolate vector with bilinear
 
 ### **quaternions**:
-* **quat quat_id()** - creates identity quaternion
-* **quat quat_new(float x, float y, float z, float w)** - creates quaternion
-* **quat quat_from_euler(vec3 r)** - creates quaternion from euler
-* **quat quat_angle_axis(float angle, vec3 axis)** creates quaternion with angle
-* **quat quat_rotation_x(float angle)** - creates quaternion rotated at x axis
-* **quat quat_rotation_y(float angle)** - creates quaternion rotated at y axis
-* **quat quat_rotation_z(float angle)** - creates quaternion rotated at z axis
-* **float quat_at(quat q, int i)** - gets quaternion element
-* **float quat_real(quat q)** - gets quaternion real element
-* **vec3 quat_imaginaries(quat q)** - gets quaternion imaginary elements
+* **quat quat_id()** - create identity quaternion
+* **quat quat_new(float x, float y, float z, float w)** - create quaternion
+* **quat quat_from_euler(vec3 r)** - create quaternion from euler
+* **quat quat_angle_axis(float angle, vec3 axis)** create quaternion with angle
+* **quat quat_rotation_x(float angle)** - create quaternion rotated at x axis
+* **quat quat_rotation_y(float angle)** - create quaternion rotated at y axis
+* **quat quat_rotation_z(float angle)** - create quaternion rotated at z axis
+* **float quat_at(quat q, int i)** - get quaternion element
+* **float quat_real(quat q)** - get quaternion real element
+* **vec3 quat_imaginaries(quat q)** - get quaternion imaginary elements
 * **void quat_to_angle_axis(quat q, vec3\* axis, float\* angle)** - get angle and axis from quaternion
-* **vec3 quat_to_euler(quat q)** - creates euler from quaternion
-* **quat quat_neg(quat q)** - negates quaternion
-* **float quat_dot(quat q1, quat q2)** - gets quaternion dot product 
-* **quat quat_scale(quat q, float f)** - scales quaternion
-* **quat quat_mul_quat(quat q1, quat q2)** - multiplies quaternions
-* **vec3 quat_mul_vec3(quat q, vec3 v)** - multiplies quaternion with vector
-* **quat quat_inverse(quat q)** - inverts quaternion
-* **quat quat_unit_inverse(quat q)** - inverts quaternion units
-* **float quat_length(quat q)** - gets quaternion length
-* **quat quat_normalize(quat q)** - normalizes quaternion
+* **vec3 quat_to_euler(quat q)** - create euler from quaternion
+* **quat quat_neg(quat q)** - negate quaternion
+* **float quat_dot(quat q1, quat q2)** - get quaternion dot product 
+* **quat quat_scale(quat q, float f)** - scale quaternion
+* **quat quat_mul_quat(quat q1, quat q2)** - multiply quaternions
+* **vec3 quat_mul_vec3(quat q, vec3 v)** - multiply quaternion with vector
+* **quat quat_inverse(quat q)** - invert quaternion
+* **quat quat_unit_inverse(quat q)** - invert quaternion units
+* **float quat_length(quat q)** - get quaternion length
+* **quat quat_normalize(quat q)** - normalize quaternion
 
-* **quat quat_exp(vec3 w)** - powers quaternion to w
-* **vec3 quat_log(quat q)** - gets log from quaternion
+* **quat quat_exp(vec3 w)** - power quaternion to w
+* **vec3 quat_log(quat q)** - get log from quaternion
 * **quat quat_slerp(quat q1, quat q2, float amount)** - slerp quaternion
 
-* **quat quat_constrain(quat q, vec3 axis)** - constrains quaternion with axis
-* **quat quat_constrain_y(quat q)** - constrains y unit from quaternion
+* **quat quat_constrain(quat q, vec3 axis)** - constrain quaternion with axis
+* **quat quat_constrain_y(quat q)** - constrain y unit from quaternion
 
-* **float quat_distance(quat q0, quat q1)** - gets distance between two quaternions
-* **quat quat_interpolate(quat\* qs, float* ws, int count)** - interpolates quaternion array
+* **float quat_distance(quat q0, quat q1)** - get distance between two quaternions
+* **quat quat_interpolate(quat\* qs, float* ws, int count)** - interpolate quaternion array
 
-* **quat_dual quat_dual_id()** - creates identity dual quaternion
-* **quat_dual quat_dual_new(quat real, quat dual)** - creates dual quaternion
-* **quat_dual quat_dual_transform(quat q, vec3 t)** - gets transformed quaternion as dual quaternion
-* **quat_dual quat_dual_mul(quat_dual q0, quat_dual q1)** - multiplies dual quaternions
-* **vec3 quat_dual_mul_vec3(quat_dual q, vec3 v)** - multiplies dual quaternion with vector
-* **vec3 quat_dual_mul_vec3_rot(quat_dual q, vec3 v)** - rotates dual quaternion with vector
+* **quat_dual quat_dual_id()** - create identity dual quaternion
+* **quat_dual quat_dual_new(quat real, quat dual)** - create dual quaternion
+* **quat_dual quat_dual_transform(quat q, vec3 t)** - get transformed quaternion as dual quaternion
+* **quat_dual quat_dual_mul(quat_dual q0, quat_dual q1)** - multiply dual quaternions
+* **vec3 quat_dual_mul_vec3(quat_dual q, vec3 v)** - multiply dual quaternion with vector
+* **vec3 quat_dual_mul_vec3_rot(quat_dual q, vec3 v)** - rotate dual quaternion with vector
 
 ### **matrix maths**
 ### note: matn stands for any matrix size 2-4, matn/n stands for two possible sizes, vecn stands for any vector size 2-4, vecn/n stands for two possible vector sizes
 
 
-* **matn matn_id()** - creates identity matrix
-* **matn matn_zero()** - creates empty matrix
-* **matn matn_new(float xx, float xy, float yx, float yy,...)** - creates new matrix
-* **matn matn_mul_matn(matn m1, matn mat2)** - multiplies two matrixes
-* **vecn matn_mul_vecn(mat2 m, vecn v)** - multiplies  vector with matrix
-* **matn matn_transpose(matn m)** - transposes matrix
-* **float matn_det(matn m)** - gets matrix determinant
-* **matn matn_inverse(matn m)** - inverts matrix
+* **matn matn_id()** - create identity matrix
+* **matn matn_zero()** - create empty matrix
+* **matn matn_new(float xx, float xy, float yx, float yy,...)** - create new matrix
+* **matn matn_mul_matn(matn m1, matn mat2)** - multiply two matrixes
+* **vecn matn_mul_vecn(mat2 m, vecn v)** - multiply  vector with matrix
+* **matn matn_transpose(matn m)** - transpose matrix
+* **float matn_det(matn m)** - get matrix determinant
+* **matn matn_inverse(matn m)** - invert matrix
 
-* **void matn_to_array(matn m, float\* out)** - transforms matrix into float array
-* **void matn_print(matn m)** - prints matrix 
+* **void matn_to_array(matn m, float\* out)** - transform matrix into float array
+* **void matn_print(matn m)** - print matrix 
 
 * **mat3/4 mat3/4_scale(vec3 s)**
 
-* **mat2 mat2_rotation(float a)** - creates 2D rotation matrix
-* **mat3/4 mat3/4_rotation_x(float a)** - creates 3D x axis rotation matrix
-* **mat3/4 mat3/4_rotation_y(float a)** - creates 3D y axis rotation matrix
-* **mat3/4 mat3/4_rotation_z(float a)** - creates 3D z axis rotation matrix
-* **mat3/4 mat3/4_rotation_angle_axis(float angle, vec3/4 axis)**  - creates 3D rotation matrix
+* **mat2 mat2_rotation(float a)** - create 2D rotation matrix
+* **mat3/4 mat3/4_rotation_x(float a)** - create 3D x axis rotation matrix
+* **mat3/4 mat3/4_rotation_y(float a)** - create 3D y axis rotation matrix
+* **mat3/4 mat3/4_rotation_z(float a)** - create 3D z axis rotation matrix
+* **mat3/4 mat3/4_rotation_angle_axis(float angle, vec3/4 axis)**  - create 3D rotation matrix
 
-* **float mat4_at(mat4 m, int i, int j)** - gets matrix element
-* **mat4 mat4_set(mat4 m, int x, int y, float v)** - sets matrix element
+* **float mat4_at(mat4 m, int i, int j)** - get matrix element
+* **mat4 mat4_set(mat4 m, int x, int y, float v)** - set matrix element
 
-* **mat4 mat3_to_mat4(mat3 m)** - transforms mat3 into mat4
-* **mat3 mat4_to_mat3(mat4 m)** - transforms mat4 into mat3
-* **quat mat4_to_quat(mat4 m)** - transforms mat4 to quaternion
-* **quat_dual mat4_to_quat_dual(mat4 m)** - transforms mat4 to dual quaternion
+* **mat4 mat3_to_mat4(mat3 m)** - transform mat3 into mat4
+* **mat3 mat4_to_mat3(mat4 m)** - transform mat4 into mat3
+* **quat mat4_to_quat(mat4 m)** - transform mat4 to quaternion
+* **quat_dual mat4_to_quat_dual(mat4 m)** - transform mat4 to dual quaternion
 
-* **void mat4_to_array_trans(mat4 m, float\* out)** - transforms mat4 into array, but with different orientation
+* **void mat4_to_array_trans(mat4 m, float\* out)** - transform mat4 into array, but with different orientation
 
-* **mat4 mat4_translation(vec3 v)** - creates translation matrix
+* **mat4 mat4_translation(vec3 v)** - create translation matrix
 
-* **mat4 mat4_rotation_euler(float x, float y, float z)** - creates euler rotation matrix
-* **mat4 mat4_rotation_quat(quat q)** - creates rotation matrix from quaternion
-* **mat4 mat4_rotation_quat_dual(quat_dual q)** - creates rotation matrix from dual quaternion
+* **mat4 mat4_rotation_euler(float x, float y, float z)** - create euler rotation matrix
+* **mat4 mat4_rotation_quat(quat q)** - create rotation matrix from quaternion
+* **mat4 mat4_rotation_quat_dual(quat_dual q)** - create rotation matrix from dual quaternion
 
-* **mat4 mat4_view_look_at(vec3 position, vec3 target, vec3 up)** - creates lookat matrix
-* **mat4 mat4_perspective(float fov, float near_clip, float far_clip, float ratio)** - creates perspective projection matrix
-* **mat4 mat4_orthographic(float left, float right, float bottom, float top, float near, float far)** - creates orthographic projection matrix
+* **mat4 mat4_view_look_at(vec3 position, vec3 target, vec3 up)** - create lookat matrix
+* **mat4 mat4_perspective(float fov, float near_clip, float far_clip, float ratio)** - create perspective projection matrix
+* **mat4 mat4_orthographic(float left, float right, float bottom, float top, float near, float far)** - create orthographic projection matrix
 
-* **mat4 mat4_world(vec3 position, vec3 scale, quat rotation)** - creates matrix for implementing worlds
+* **mat4 mat4_world(vec3 position, vec3 scale, quat rotation)** - create matrix for implementing worlds
 
-* **mat4 mat4_lerp(mat4 m1, mat4 mat2, float amount)** - interpolates two matrixes
-* **mat4 mat4_smoothstep(mat4 m1, mat4 mat2, float amount)** - interpolates two matrixes with smooth step
+* **mat4 mat4_lerp(mat4 m1, mat4 mat2, float amount)** - interpolate two matrixes
+* **mat4 mat4_smoothstep(mat4 m1, mat4 mat2, float amount)** - interpolate two matrixes with smooth step
 
 #
 ### **geometry**:
