@@ -36,11 +36,11 @@
 # **types**:
 * **SDLNet_version**
 * **IPaddress**
+* **SDLNet_GenericSocket**
 * **TCPsocket**
 * **UDPsocket**
 * **UDPpacket**
 * **SDLNet_SocketSet**
-* **SDLNet_GenericSocket**
 
 # **constants/macros**:
 * SDL_NET_MAJOR_VERSION   
@@ -163,10 +163,6 @@
     //client should be connected by now
     ```
 
-
-
-
-
 * ### **IPaddress \*   SDLNet_TCP_GetPeerAddress(TCPsocket sock)**
     #### get ip address from the peer (other end)
     #### **parameters**:
@@ -213,7 +209,6 @@
 
     int bytes = SDLNet_TCP_Recv(client, message, 128);
     if(bytes <= 0){
-        printf("error");
         //handle error
     }
     printf("received message from server: %s", message);
@@ -279,52 +274,128 @@
 
 ### **socket set**:
 
-* **SDLNet_SocketSet SDLNet_AllocSocketSet(int maxsockets)**
+## note: SDLNet_GenericSocket can be both TCP or UDP, if a function uses it, it has 2 more versions for each protocol
 
-
-
-* **int SDLNet_AddSocket(SDLNet_SocketSet set, SDLNet_GenericSocket sock)**
-
-
-
-* **int SDLNet_TCP_AddSocket(SDLNet_SocketSet set, TCPsocket sock)**
-
-
-
-* **int SDLNet_UDP_AddSocket(SDLNet_SocketSet set, UDPsocket sock)**
-
-
-
-* **int SDLNet_DelSocket(SDLNet_SocketSet set, SDLNet_GenericSocket sock)**
-
-
-
-
-* **int SDLNet_TCP_DelSocket(SDLNet_SocketSet set, TCPsocket sock)**
-
-
-
-* **int SDLNet_UDP_DelSocket(SDLNet_SocketSet set, UDPsocket sock)**
-
-
-* **int SDLNet_CheckSockets(SDLNet_SocketSet set, Uint32 timeout)**
-
-
-* **int SDLNet_SocketReady(sock)**
-
-
+* ### **SDLNet_SocketSet SDLNet_AllocSocketSet(int maxsockets)**
+    #### allocate a socket set
+    #### **parameters**:
+    - maxsockets - maximum socket number to watch
+    #### **return**: new empty socket set, NULL on error, such as out of memory
+    #### **example**:
+    ```c
+    SDLNet_SocketSet socket_set;
+    socket_set = SDLNet_AllocSocketSet(int maxsockets);
+    ```
 * **void   SDLNet_FreeSocketSet(SDLNet_SocketSet set)**
+    #### free a socket set
+    #### **parameters**:
+    - set - socket set to free
+    #### **return**: new empty socket set, NULL on error, such as out of memory
+    #### **example**:
+    ```c
+    SDLNet_SocketSet socket_set;
+    socket_set = SDLNet_AllocSocketSet(int maxsockets);
+    ```
+
+* ### **int SDLNet_AddSocket(SDLNet_SocketSet set, SDLNet_GenericSocket sock)**
+    #### add socket to watch in a socket set
+    #### **parameters**:
+    - set - socket set to add socket
+    - sock - socket to add
+    #### **return**: number of sockets on succes. -1 on errors.
+    #### **example**:
+    ```c
+    SDLNet_SocketSet socket_set;
+    socket_set = SDLNet_AllocSocketSet(int maxsockets);
+    SDLNet_GenericSocket socket;
+    //do something and connect
+    int sockets = SDLNet_AddSocket(socket);
+    if(sockets == -1){
+        //handle error
+    }
+    ```
+
+
+
+* ### **int SDLNet_DelSocket(SDLNet_SocketSet set, SDLNet_GenericSocket sock)**
+    #### delete socket from socket set
+    #### **parameters**:
+    - set - socket set to delete from
+    - sock - socket to delete
+    #### **return**: number of sockets on success. -1 on errors.
+    #### **example**:
+    ```c
+    SDLNet_SocketSet socket_set;
+    SDLNet_GenericSocket socket;
+    int sockets = SDLNet_AddSocket(socket);
+    //do socket set stuff
+    int success = 
+    //
+    ```
+
+* ### **int SDLNet_CheckSockets(SDLNet_SocketSet set, Uint32 timeout)**
+    #### check activity in a socket set, disconnecting or errors are also activities
+    #### **parameters**:
+    - set - socket set to check activity
+    - timeout - time waiting for activity in ms, 0 = no wait, -1 = 49 days (softly, don't.)
+    #### **return**: number of sockets with activity on success. -1 on errors or empty set
+    #### **example**:
+    ```c
+    SDLNet_GenericSocket sockets[16];
+    // connect and stuff
+    SDLNet_SocketSet socket_set;
+    // do socket set stuff
+
+    while(running){
+        int num_ready = SDLNet_CheckSockets(socket_set, 1000);
+        if(num_ready > 0){
+            //handle activity
+        }
+    }
+    ```
+
+
+* ### **int SDLNet_SocketReady(sock)**
+    #### check activity in a socket, disconnecting or errors are also activities
+    #### **parameters**:
+    - sock - socket to check
+    #### **return**: non-zero for activity. zero for no activity.
+    #### **example**:
+    ```c
+    SDLNet_GenericSocket sockets[16];
+    int sock_number = 16;
+    SDLNet_SocketSet socket_set;
+    // do socket set stuff
+    while(running){
+        int num_ready = SDLNet_CheckSockets(socket_set, 1000);
+        if(num_ready > 0){
+            for(int i=0;i<sock_number;i++){
+                if(SDLNet_SocketReady(sockets[i])){
+                    //handle it
+                }
+            }
+        }
+    }
+    ```
 
 ### **errors**:
 
-* **void   SDLNet_SetError(const char \*fmt, ...)**
-* **const char *   SDLNet_GetError(void)**
+* ### **void SDLNet_SetError(const char \*fmt, ...)**
+    #### set SDL_Net error string
+* ### **const char * SDLNet_GetError(void)**
+    #### get SDL_Net error string
 
 ### **endian**:
 
-* **SDLNet_Write16(Uint16 value, void \*areap)**
-* **SDLNet_Write32(Uint16 value, void \*areap)**
+* ### **void SDLNet_Write16/32(Uint16/32 value, void \*areap)**
+    #### write 16/32 bit value into the right endian
+    #### **parameters**:
+    - value - value to write
+    - areap - area to write
 
-* **void SDLNet_Read16(void \*areap)**
-* **void SDLNet_Read32(void \*areap)**
+* ### **Uint16/32 SDLNet_Read16/32(void \*areap)**
+    #### read 16/32 bit value in the right endian
+    #### **parameters**:
+    - areap - area to read
+    #### **return**: value in area in the right endian
 
