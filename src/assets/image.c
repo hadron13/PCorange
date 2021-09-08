@@ -804,6 +804,8 @@ void image_write_to_file(image* i, char* filename) {
   
        if ( strcmp(ext.ptr, "tga") == 0 ) { image_tga_save_file(i, filename); }
   else if ( strcmp(ext.ptr, "bmp") == 0 ) { image_bmp_save_file(i, filename); }
+  else if ( strcmp(ext.ptr, "png") == 0 ) { image_png_save_file(i, filename); }
+  else if ( strcmp(ext.ptr, "jpg") == 0 ) { image_jpg_save_file(i, filename, 100); }
   else { error("Cannot save texture to %s, unknown file extension %s. Try .tga!\n", filename, ext.ptr); }
 }
 
@@ -841,6 +843,21 @@ void image_bmp_save_file(image* i, char* filename) {
   
 }
 
+void image_png_save_file(image* i, char* filename){
+  
+  SDL_Surface* surface = SDL_CreateRGBSurfaceFrom(i->data, i->width, i->height, 32, 4 * i->width, 0xFF000000, 0x00FF0000, 0x0000FF00, 0x000000FF);
+  IMG_SavePNG(surface, filename);
+  SDL_FreeSurface(surface);
+
+}
+void image_jpg_save_file(image* i, char* filename, int quality){
+  
+  SDL_Surface* surface = SDL_CreateRGBSurfaceFrom(i->data, i->width, i->height, 32, 4 * i->width, 0xFF000000, 0x00FF0000, 0x0000FF00, 0x000000FF);
+  IMG_SaveJPG(surface, filename, quality);
+  SDL_FreeSurface(surface);
+
+}
+
 image* image_read_from_file(char* filename) {
   
   fpath ext;
@@ -848,6 +865,8 @@ image* image_read_from_file(char* filename) {
   
        if ( strcmp(ext.ptr, "tga") == 0 ) { return image_tga_load_file(filename); }
   else if ( strcmp(ext.ptr, "bmp") == 0 ) { return image_bmp_load_file(filename); } 
+  else if ( strcmp(ext.ptr, "png") == 0 ) { return image_png_load_file(filename); } 
+  else if ( strcmp(ext.ptr, "jpg") == 0 ) { return image_jpg_load_file(filename); } 
   else { error("Cannot save texture to %s, unknown file extension %s. Try .tga!\n", filename, ext.ptr); return NULL; }
 }
 
@@ -983,3 +1002,69 @@ image* image_bmp_load_file(char* filename) {
   return i;
 }
 
+image* image_png_load_file(char* filename){
+  SDL_Surface* surface = IMG_LoadPNG_RW(SDL_RWFromFile(filename, "rb"));
+    if (!surface) { error("Could not load file %s\n", filename); }
+  
+  SDL_LockSurface(surface);
+  
+  unsigned char* image_data = malloc(sizeof(unsigned char) * 4 * surface->w * surface->h);
+  
+  if (surface->format->BytesPerPixel == 3) {
+    
+    int x, y;
+    for(x = 0; x < surface->w; x++)
+    for(y = 0; y < surface->h; y++) {
+      image_data[x * 4 + y * surface->w * 4 + 0] = ((unsigned char*)surface->pixels)[x * 3 + y * surface->w * 3 + 0];
+      image_data[x * 4 + y * surface->w * 4 + 1] = ((unsigned char*)surface->pixels)[x * 3 + y * surface->w * 3 + 1];
+      image_data[x * 4 + y * surface->w * 4 + 2] = ((unsigned char*)surface->pixels)[x * 3 + y * surface->w * 3 + 2];
+      image_data[x * 4 + y * surface->w * 4 + 3] = 0;
+    }
+    
+  } else if (surface->format->BytesPerPixel == 4) {
+    memcpy(image_data, surface->pixels, sizeof(unsigned char) * 4 * surface->w * surface->h);
+  } else {
+    error("File %s has %i channels, don't know how to load it!", filename, surface->format->BytesPerPixel);
+  }
+
+  image* i = image_new(surface->w, surface->h, image_data);
+  
+  free(image_data);
+  
+  SDL_UnlockSurface(surface);
+  SDL_FreeSurface(surface);
+  
+  return i;
+}
+
+image* image_jpg_load_file(char* filename){
+  SDL_Surface* surface = IMG_LoadPNG_RW(SDL_RWFromFile(filename, "rb"));
+    if (!surface) { error("Could not load file %s\n", filename); }
+  
+  SDL_LockSurface(surface);
+  
+  unsigned char* image_data = malloc(sizeof(unsigned char) * 4 * surface->w * surface->h);
+  
+  if (surface->format->BytesPerPixel == 3) {
+    
+    int x, y;
+    for(x = 0; x < surface->w; x++)
+    for(y = 0; y < surface->h; y++) {
+      image_data[x * 4 + y * surface->w * 4 + 0] = ((unsigned char*)surface->pixels)[x * 3 + y * surface->w * 3 + 0];
+      image_data[x * 4 + y * surface->w * 4 + 1] = ((unsigned char*)surface->pixels)[x * 3 + y * surface->w * 3 + 1];
+      image_data[x * 4 + y * surface->w * 4 + 2] = ((unsigned char*)surface->pixels)[x * 3 + y * surface->w * 3 + 2];
+      image_data[x * 4 + y * surface->w * 4 + 3] = 0;
+    }
+  } else {
+    error("File %s has %i channels, don't know how to load it!", filename, surface->format->BytesPerPixel);
+  }
+
+  image* i = image_new(surface->w, surface->h, image_data);
+  
+  free(image_data);
+  
+  SDL_UnlockSurface(surface);
+  SDL_FreeSurface(surface);
+  
+  return i;
+}

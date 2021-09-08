@@ -109,9 +109,13 @@ void image_mask_random(image* i, int* u, int* v);
 image* image_read_from_file(char* filename);
 image* image_tga_load_file(char* filename);
 image* image_bmp_load_file(char* filename);
+image* image_png_load_file(char* filename);
+image* image_jpg_load_file(char* filename);
 
 void image_write_to_file(image* i, char* filename);
 void image_tga_save_file(image* i, char* filename);
 void image_bmp_save_file(image* i, char* filename);
+void image_png_save_file(image* i, char* filename);
+void image_jpg_save_file(image* i, char* filename, int quality);
 
 #endif

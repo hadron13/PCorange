@@ -28,6 +28,7 @@
 /* SDL includes */
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_opengl.h>
+#include <SDL2/SDL_image.h>
 #include <SDL2/SDL_rwops.h>
 #include <SDL2/SDL_mixer.h>
 #include <SDL2/SDL_net.h>
